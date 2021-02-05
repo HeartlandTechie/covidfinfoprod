@@ -45,18 +45,18 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = [
-            'employeeID' => $this->email,
-            'password' => $this->password,
-        ];
+      $credentials = [
+        'employeeID' => $this->email,
+        'password' => $this->password,
+    ];
 
-        if (! Auth::attempt($credentials, $this->filled('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+    if (! Auth::attempt($credentials, $this->filled('remember'))) {
+        RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+        throw ValidationException::withMessages([
+            'email' => __('auth.failed'),
+        ]);
+    }
 
         RateLimiter::clear($this->throttleKey());
     }

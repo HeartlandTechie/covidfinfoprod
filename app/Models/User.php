@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+use LdapRecord\Laravel\Auth\LdapAuthenticatable;
+use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
+use Lab404\Impersonate\Models\Impersonate;
+
+class User extends Authenticatable implements LdapAuthenticatable
 {
-    use HasFactory, Notifiable;
+    use Notifiable, AuthenticatesWithLdap, Impersonate;
+
 
     /**
      * The attributes that are mass assignable.

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +17,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+Route::get('/impersonate/leave', function(){
+
+    Auth::user()->leaveImpersonation();
+});
+
+Route::get('/impersonate/{id}', function($who){
+   
+    $other_user = User::where('name','=',$who)->first();
+    Auth::user()->impersonate($other_user);
+});
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+
 
 require __DIR__.'/auth.php';
